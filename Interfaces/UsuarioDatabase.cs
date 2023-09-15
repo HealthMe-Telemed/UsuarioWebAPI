@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UsuarioWebAPI.Interfaces
 {
-    public interface IUsuario
+    public class UsuarioDatabase
     {
         
     }

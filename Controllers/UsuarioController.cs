@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using UsuarioWebAPI.Models;
+using UsuarioWebAPI.Services;
 
 namespace UsuarioWebAPI.Controllers;
 
@@ -8,17 +9,21 @@ namespace UsuarioWebAPI.Controllers;
 public class UsuarioController : ControllerBase
 {
     private readonly ILogger<UsuarioController> _logger;
-
-    public UsuarioController(ILogger<UsuarioController> logger)
+    private readonly IUsuarioService _usuarioService;
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioService usuarioService)
     {
         _logger = logger;
+        _usuarioService = usuarioService;
     }
 
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginForm login)
     {
-        return Ok("Login com sucesso");
+        var loginStatus = await _usuarioService.Logar(login);
+        if (!loginStatus) return BadRequest("Usuário ou senha inválido");
+
+        return Ok();
     }
 
     [HttpPost]
