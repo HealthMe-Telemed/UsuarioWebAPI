@@ -10,6 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors();
+
 builder.Services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnectionString("MySql")));
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioDatabase, UsuarioDatabase>();
@@ -24,7 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
+app.UseCors(options => options.AllowAnyOrigin());
 
 app.MapControllers();
 
