@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using UsuarioWebAPI.Models;
 using UsuarioWebAPI.Services;
@@ -30,7 +31,12 @@ public class UsuarioController : ControllerBase
     [Route("Cadastro")]
     public async Task<IActionResult> Cadastro([FromBody] CadastroRequest request)
     {
-        return Ok();
+        
+        var usuarioCadastrado = await _usuarioService.Cadastrar(request);
+        
+        if (!usuarioCadastrado) return BadRequest("Usuário já existente no sistema");
+        
+        return Ok("Usuario Cadastrado com Sucesso");
     }
 
     

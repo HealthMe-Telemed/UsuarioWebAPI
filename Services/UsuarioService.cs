@@ -18,7 +18,8 @@ namespace UsuarioWebAPI.Services
         }
         public async Task<bool> Cadastrar(CadastroRequest request)
         {
-            throw new NotImplementedException();
+            var cadastroValido = await _usuarioDatabase.ValidarCadastro(request);
+            return cadastroValido;
         }
 
         public async Task<bool> Logar(LoginForm login)
