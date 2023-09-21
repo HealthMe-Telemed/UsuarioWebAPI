@@ -8,7 +8,7 @@ namespace UsuarioWebAPI.Interfaces
 {
     public interface IUsuarioDatabase
     {
-        public Task<bool> EncontrarUsuario(LoginForm login);
+        public Task<Usuario> EncontrarUsuario(LoginForm login);
         public Task<bool> ValidarCadastro (CadastroRequest request);
     }
 }

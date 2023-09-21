@@ -22,10 +22,11 @@ namespace UsuarioWebAPI.Services
             return cadastroValido;
         }
 
-        public async Task<bool> Logar(LoginForm login)
+        public async Task<Usuario> Logar(LoginForm login)
         {
-            var loginStatus = await _usuarioDatabase.EncontrarUsuario(login);
-            return loginStatus;
+            var usuario = await _usuarioDatabase.EncontrarUsuario(login);
+            
+            return usuario;
         }
     }
 }

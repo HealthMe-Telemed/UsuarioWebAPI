@@ -9,7 +9,7 @@ namespace UsuarioWebAPI.Services
     public interface IUsuarioService
     {
         public Task<bool> Cadastrar(CadastroRequest request);
-        public Task<bool> Logar(LoginForm login);
+        public Task<Usuario> Logar(LoginForm login);
 
     }
 }

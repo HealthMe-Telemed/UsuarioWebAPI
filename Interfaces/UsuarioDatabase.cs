@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Dapper;
 using MySqlConnector;
+using UsuarioWebAPI.Extensions;
 using UsuarioWebAPI.Models;
 
 namespace UsuarioWebAPI.Interfaces
@@ -22,9 +23,22 @@ namespace UsuarioWebAPI.Interfaces
             _database = database;
         }
         
-        public async Task<bool> EncontrarUsuario(LoginForm login)
+        public async Task<Usuario> EncontrarUsuario(LoginForm login)
         {
-            return true;
+            try
+            {
+                _logger.LogInformation($"Buscando usuario com as credenciais CPF: {login.CPF} e senha: {login.Senha}...");
+                
+                var usuario = await _database.QueryFirstOrDefaultAsync<Usuario>(QueryExtensions.QueryConsultaCredenciais(), 
+                    new { cpf = login.CPF, senha = login.Senha });
+                return usuario;
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
         }
 
         public async Task<bool> ValidarCadastro(CadastroRequest request)

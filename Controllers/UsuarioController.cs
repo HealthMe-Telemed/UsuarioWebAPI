@@ -21,10 +21,16 @@ public class UsuarioController : ControllerBase
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginForm login)
     {
-        var loginStatus = await _usuarioService.Logar(login);
-        if (!loginStatus) return BadRequest("Usuário ou senha inválido");
-
-        return Ok();
+        var usuario = await _usuarioService.Logar(login);
+        if (usuario is null)
+        { 
+            _logger.LogError("Usuário ou senha inválido");
+            return BadRequest("Usuário ou senha inválido");
+        }
+        
+        _logger.LogInformation($@"Usuário encontrado com as seguintes informações: 
+            Nome: {usuario.Nome}, CPF: {usuario.CPF}, Numero: {usuario.Numero}, Data de Nasimento: {usuario.DataNascimento.ToString("yyyy-MM-dd")}");
+        return Ok(usuario);
     }
 
     [HttpPost]
