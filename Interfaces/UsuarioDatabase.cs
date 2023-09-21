@@ -50,7 +50,7 @@ namespace UsuarioWebAPI.Interfaces
 
             catch(Exception ex)
             {
-                _logger.LogError("Ocorreu um erro inesperado!!");
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
             }
 
             _logger.LogInformation("Usuário cadastrado no sistema");
