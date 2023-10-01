@@ -10,7 +10,7 @@ using MySqlConnector;
 using UsuarioWebAPI.Extensions;
 using UsuarioWebAPI.Models;
 
-namespace UsuarioWebAPI.Interfaces
+namespace UsuarioWebAPI.Repository
 {
     public class UsuarioDatabase : IUsuarioDatabase
     {
@@ -22,7 +22,25 @@ namespace UsuarioWebAPI.Interfaces
             _logger = logger;
             _database = database;
         }
-        
+
+        public async Task<List<Perfil>> EncontrarPerfis(int usuarioId)
+        {
+            try
+            {
+                _logger.LogInformation($"Buscando perfis do usuario com id {usuarioId}");
+                
+                var perfis = await _database.QueryAsync<Perfil>(QueryExtensions.QueryBuscarPerfis(), 
+                    new { id_usuario = usuarioId});
+                return perfis.ToList();
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
         public async Task<Usuario> EncontrarUsuario(LoginForm login)
         {
             try

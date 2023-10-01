@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UsuarioWebAPI.Interfaces;
+using UsuarioWebAPI.Repository;
 using UsuarioWebAPI.Models;
+using System.Text.RegularExpressions;
 
 namespace UsuarioWebAPI.Services
 {
@@ -25,8 +26,18 @@ namespace UsuarioWebAPI.Services
         public async Task<Usuario> Logar(LoginForm login)
         {
             var usuario = await _usuarioDatabase.EncontrarUsuario(login);
-            
+
             return usuario;
         }
+
+        public async Task<Usuario> BuscarPerfis(Usuario usuario)
+        {
+            var perfis = await _usuarioDatabase.EncontrarPerfis(usuario.Id);
+
+            usuario.Perfis.AddRange(perfis);
+            return usuario;
+
+        }
+
     }
 }

@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsuarioWebAPI.Models;
 using UsuarioWebAPI.Services;
@@ -11,13 +13,17 @@ public class UsuarioController : ControllerBase
 {
     private readonly ILogger<UsuarioController> _logger;
     private readonly IUsuarioService _usuarioService;
-    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioService usuarioService)
+    private readonly ITokenService _tokenService;
+
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioService usuarioService, ITokenService tokenService)
     {
         _logger = logger;
         _usuarioService = usuarioService;
+        _tokenService = tokenService;
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginForm login)
     {
@@ -25,12 +31,20 @@ public class UsuarioController : ControllerBase
         if (usuario is null)
         { 
             _logger.LogError("Usuário ou senha inválido");
-            return BadRequest("Usuário ou senha inválido");
+            return Unauthorized("Usuário ou senha inválido");
         }
         
         _logger.LogInformation($@"Usuário encontrado com as seguintes informações: 
-            Nome: {usuario.Nome}, CPF: {usuario.CPF}, Numero: {usuario.Numero}, Data de Nasimento: {usuario.DataNascimento.ToString("yyyy-MM-dd")}");
-        return Ok(usuario);
+            Nome: {usuario.Nome}");
+
+        var usuarioPerfis =  await _usuarioService.BuscarPerfis(usuario);   
+
+        var token = _tokenService.GerarToken(usuarioPerfis);
+
+        return Ok(new {
+            Usuario = usuarioPerfis,
+            Token = token
+        });
     }
 
     [HttpPost]

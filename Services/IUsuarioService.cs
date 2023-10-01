@@ -11,5 +11,7 @@ namespace UsuarioWebAPI.Services
         public Task<bool> Cadastrar(CadastroRequest request);
         public Task<Usuario> Logar(LoginForm login);
 
+        public Task<Usuario> BuscarPerfis(Usuario usuario);
+        
     }
 }
