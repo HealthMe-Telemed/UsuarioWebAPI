@@ -71,6 +71,7 @@ namespace UsuarioWebAPI.Repository
                             nomeUsuario = request.Nome,
                             cpfUsuario = request.Cpf,
                             numeroUsuario = request.Numero,
+                            emailUsuario = request.Email,
                             dataNascimentoUsuario = request.DataNascimento,
                             senhaUsuario = request.Senha
                         }, commandType: CommandType.StoredProcedure);
