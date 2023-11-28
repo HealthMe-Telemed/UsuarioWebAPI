@@ -51,7 +51,7 @@ services.AddSwaggerGen(c =>
 
 services.AddCors();
 
-services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnectionString("MySql")));
+services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnectionString("AWS")));
 services.AddScoped<IUsuarioService, UsuarioService>();
 services.AddScoped<IUsuarioDatabase, UsuarioDatabase>();
 services.AddScoped<ITokenService, TokenService>();
