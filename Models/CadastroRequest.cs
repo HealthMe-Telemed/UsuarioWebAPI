@@ -13,5 +13,7 @@ namespace UsuarioWebAPI.Models
         public string Numero { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
+        public bool Medico { get; set; }
+        public string Crm { get; set; }
     }
 }

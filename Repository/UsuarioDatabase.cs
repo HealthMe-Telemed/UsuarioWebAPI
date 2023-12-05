@@ -66,14 +66,16 @@ namespace UsuarioWebAPI.Repository
             {
                 _logger.LogInformation("Tentando registrar o usuario no sistema...");
                 
-                var cadastroValido = await _database.ExecuteAsync("pInserirUsuario", 
+                var cadastroValido = await _database.ExecuteAsync("pInserirUsuarioeMedico", 
                     new { 
                             nomeUsuario = request.Nome,
                             cpfUsuario = request.Cpf,
                             numeroUsuario = request.Numero,
                             emailUsuario = request.Email,
                             dataNascimentoUsuario = request.DataNascimento,
-                            senhaUsuario = request.Senha
+                            senhaUsuario = request.Senha,
+                            medico = request.Medico,
+                            crmMedico = request.Crm
                         }, commandType: CommandType.StoredProcedure);
             }
             catch(MySqlException mySqlEx){
