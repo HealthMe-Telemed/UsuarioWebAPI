@@ -11,5 +11,7 @@ namespace UsuarioWebAPI.Repository
         public Task<Usuario> EncontrarUsuario(LoginForm login);
         public Task<bool> ValidarCadastro (CadastroRequest request);
         public Task <List<Perfil>> EncontrarPerfis(int usuarioId);
+        public Task<int> EncontrarUsuarioCadastrado(string cpf);
+        public Task AtualizarPerfis(int usuarioId);
     }
 }

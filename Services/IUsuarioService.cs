@@ -12,6 +12,6 @@ namespace UsuarioWebAPI.Services
         public Task<Usuario> Logar(LoginForm login);
 
         public Task<Usuario> BuscarPerfis(Usuario usuario);
-        
+        Task AtualizarPerfis(string cpf);
     }
 }

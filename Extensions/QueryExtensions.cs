@@ -12,7 +12,8 @@ namespace UsuarioWebAPI.Extensions
             U.id as 'Id', 
             U.nome as 'Nome', 
             U.cpf as 'CPF', 
-            U.numero as 'Numero', 
+            U.numero as 'Numero',
+            U.email as 'Email',
             U.data_nascimento as 'DataNascimento', 
             U.ativo as 'Ativo' FROM usuario U 
             WHERE U.cpf = @cpf AND U.senha = @senha;";
@@ -26,6 +27,16 @@ namespace UsuarioWebAPI.Extensions
             INNER JOIN healthme.v_perfis vp
             ON vp.usuario_id = u.id
             WHERE u.id = @id_usuario;";
+
+        public static string QueryConsultaUsuarioCadastrado() => @"SELECT 
+            U.id as 'Id', 
+            U.nome as 'Nome', 
+            U.cpf as 'CPF', 
+            U.numero as 'Numero',
+            U.email as 'Email',
+            U.data_nascimento as 'DataNascimento', 
+            U.ativo as 'Ativo' FROM usuario U 
+            WHERE U.cpf = @cpf;";
     }
     
 }

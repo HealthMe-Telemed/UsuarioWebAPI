@@ -39,5 +39,10 @@ namespace UsuarioWebAPI.Services
 
         }
 
+        public async Task AtualizarPerfis(string cpf)
+        {
+            var usuarioId = await _usuarioDatabase.EncontrarUsuarioCadastrado(cpf);
+            await _usuarioDatabase.AtualizarPerfis(usuarioId);
+        }
     }
 }

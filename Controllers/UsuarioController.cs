@@ -55,6 +55,8 @@ public class UsuarioController : ControllerBase
         var usuarioCadastrado = await _usuarioService.Cadastrar(request);
         
         if (!usuarioCadastrado) return BadRequest("Usuário já existente no sistema");
+
+        await _usuarioService.AtualizarPerfis(request.Cpf);
         
         return Ok("Usuario Cadastrado com Sucesso");
     }
