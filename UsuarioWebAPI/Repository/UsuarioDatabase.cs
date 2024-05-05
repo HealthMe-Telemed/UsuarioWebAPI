@@ -111,7 +111,8 @@ namespace UsuarioWebAPI.Repository
                             dataNascimentoUsuario = request.DataNascimento,
                             senhaUsuario = request.Senha,
                             medico = request.Medico,
-                            crmMedico = request.Crm
+                            crmMedico = request.Crm,
+                            idEspecialidade = request.IdEspecialidade
                         }, commandType: CommandType.StoredProcedure);
             }
             catch(MySqlException mySqlEx){
