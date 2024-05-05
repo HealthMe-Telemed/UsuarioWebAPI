@@ -16,23 +16,26 @@ public class LoginTest
     [Fact]
     public async Task LoginInvalido()
     {
+        //Arrange
         var usuarioServiceMock = new Mock<IUsuarioService>();
         var tokenServiceMock = new Mock<ITokenService>();
         var loginForm = new LoginForm(){CPF="11111111111", Senha="12345"};
         usuarioServiceMock.Setup(s => s.Logar(loginForm)).ReturnsAsync((Usuario)null);
-            var loggerMock = new Mock<ILogger<UsuarioController>>();
-            var controller = new UsuarioController(loggerMock.Object, usuarioServiceMock.Object, tokenServiceMock.Object);
+        var loggerMock = new Mock<ILogger<UsuarioController>>();
+        var controller = new UsuarioController(loggerMock.Object, usuarioServiceMock.Object, tokenServiceMock.Object);
 
+        //Act
         var result = await controller.Login(loginForm);
 
-            // Assert
-            Assert.IsType<UnauthorizedObjectResult>(result);
+        // Assert
+        Assert.IsType<UnauthorizedObjectResult>(result);
 
     }
 
     [Fact]
     public async Task LoginValido()
     {
+        //Arrange
         var usuarioServiceMock = new Mock<IUsuarioService>();
         var tokenServiceMock = new Mock<ITokenService>();
         var loginForm = new LoginForm(){CPF="12345678900", Senha="senhaUsuario1"};
@@ -53,10 +56,10 @@ public class LoginTest
         tokenServiceMock.Setup(s => s.GerarToken(usuarioPerfisEsperado)).Returns(tokenEsperado);
     
 
+        //Act
         var result = await controller.Login(loginForm);
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-
-
+            
+        // Assert
+        Assert.IsType<OkObjectResult>(result);
     }
 }
