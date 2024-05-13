@@ -14,7 +14,7 @@ namespace UsuarioWebAPI.Tests.ControllerTests
     public class UsuarioControllerTest
     {
         [Fact]
-		public async Task LoginInvalido()
+		public async Task LoginUnauthorized()
 		{
 			//Arrange
 			var usuarioServiceMock = new Mock<IUsuarioService>();
@@ -33,7 +33,7 @@ namespace UsuarioWebAPI.Tests.ControllerTests
 		}
 
 		[Fact]
-		public async Task LoginValido()
+		public async Task LoginOk()
 		{
 			//Arrange
 			var usuarioServiceMock = new Mock<IUsuarioService>();
@@ -64,7 +64,7 @@ namespace UsuarioWebAPI.Tests.ControllerTests
 		}
 			
 		[Fact]
-        public async Task CadastroValido ()
+        public async Task CadastroOk ()
         {
             
             //Arrange
@@ -85,7 +85,7 @@ namespace UsuarioWebAPI.Tests.ControllerTests
         }
 
         [Fact]  
-          public async Task CadastroInvalido ()
+          public async Task CadastroBadRequest()
         {
             
             //Arrange
