@@ -20,8 +20,9 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var cadastroRequestMock = new CadastroRequest(){Nome = "Usuario1", Cpf = "12345678900", DataNascimento = new DateTime(1999, 01, 01), Email = "usuario1@gmail.com", Numero = "11999999999", Senha = "senhaUsuario1"};
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.ValidarCadastro(cadastroRequestMock)).ReturnsAsync(true);
         //Act
         var result = await service.Cadastrar(cadastroRequestMock);
@@ -37,8 +38,9 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var cadastroRequestMock = new CadastroRequest(){Nome = "Usuario1", Cpf = "12345678900", DataNascimento = new DateTime(1999, 01, 01), Email = "usuario1@gmail.com", Numero = "11999999999", Senha = "senhaUsuario1"};
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.ValidarCadastro(cadastroRequestMock)).ReturnsAsync(false);
         //Act
         var result = await service.Cadastrar(cadastroRequestMock);
@@ -54,6 +56,7 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var loginFormMock = new LoginForm(){CPF="12345678900", Senha="senhaUsuario1"};
 		var perfisMock = new List<Perfil>(){ new Perfil() { IdPerfil = 1, IdPaciente = 1, IdMedico = 0, Descricao = "Paciente"}};
 		var response = new Usuario(){ 
@@ -66,7 +69,7 @@ public class UsuarioServiceTest
 			Ativo = true,
 			Perfis = perfisMock
 		};
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.EncontrarUsuario(loginFormMock)).ReturnsAsync(response);
         //Act
         var result = await service.Logar(loginFormMock);
@@ -83,10 +86,11 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var loginFormMock = new LoginForm(){CPF="12345678900", Senha="senhaUsuario1"};
 		var perfisMock = new List<Perfil>(){ new Perfil() { IdPerfil = 1, IdPaciente = 1, IdMedico = 0, Descricao = "Paciente"}};
 		Usuario response = null;
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.EncontrarUsuario(loginFormMock)).ReturnsAsync((Usuario) null);
         //Act
         var result = await service.Logar(loginFormMock);
@@ -101,6 +105,7 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var response = new List<Perfil>(){ new Perfil() { IdPerfil = 1, IdPaciente = 1, IdMedico = 0, Descricao = "Paciente"}};
 		var usuarioMock = new Usuario(){ 
 			Id = 1, 
@@ -111,7 +116,7 @@ public class UsuarioServiceTest
 			DataNascimento = new DateTime(1999, 01, 01),
 			Ativo = true
 		};
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.EncontrarPerfis(usuarioMock.Id)).ReturnsAsync(response);
         //Act
         var result = await service.BuscarPerfis(usuarioMock);
@@ -129,9 +134,10 @@ public class UsuarioServiceTest
         //Arrange
         var usuarioDatabaseMock = new Mock<IUsuarioDatabase>();
         var loggerMock = new Mock<ILogger<UsuarioService>>();
+        var emailSenderMock = new Mock<IEmailSender>();
 		var usuarioIdMock = 1;
 		var cpfMock = "11111111111";
-		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object);
+		var service = new UsuarioService(loggerMock.Object, usuarioDatabaseMock.Object, emailSenderMock.Object);
 		usuarioDatabaseMock.Setup(s => s.EncontrarUsuarioCadastrado(cpfMock)).ReturnsAsync((usuarioIdMock));
         //Act
         await service.AtualizarPerfis(cpfMock);
