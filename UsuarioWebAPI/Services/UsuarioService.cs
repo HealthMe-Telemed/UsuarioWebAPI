@@ -44,5 +44,11 @@ namespace UsuarioWebAPI.Services
             var usuarioId = await _usuarioDatabase.EncontrarUsuarioCadastrado(cpf);
             await _usuarioDatabase.AtualizarPerfis(usuarioId);
         }
+
+        public async Task<Usuario> EncontrarUsuarioParaReset(ResetRequest resetRequest)
+        {
+            var usuarioExistente = await _usuarioDatabase.EncontrarUsuarioParaReset(resetRequest);
+            return usuarioExistente;
+        }
     }
 }

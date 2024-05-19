@@ -95,6 +95,24 @@ namespace UsuarioWebAPI.Repository
             }
         }
 
+        public async Task<Usuario> EncontrarUsuarioParaReset(ResetRequest resetRequest)
+        {
+            try
+            {
+                _logger.LogInformation($"Buscando usuario com CPF: {resetRequest.CPF} e email: {resetRequest.Email}...");
+                
+                var usuario = await _database.QueryFirstOrDefaultAsync<Usuario>(QueryExtensions.QueryConsultaUsuarioPraReset(), 
+                    new { cpf = resetRequest.CPF, email = resetRequest.Email });
+                return usuario;
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
         public async Task<bool> ValidarCadastro(CadastroRequest request)
         {
             

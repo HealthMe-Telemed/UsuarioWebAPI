@@ -13,5 +13,6 @@ namespace UsuarioWebAPI.Repository
         public Task <List<Perfil>> EncontrarPerfis(int usuarioId);
         public Task<int> EncontrarUsuarioCadastrado(string cpf);
         public Task AtualizarPerfis(int usuarioId);
+        public Task<Usuario> EncontrarUsuarioParaReset(ResetRequest resetRequest);
     }
 }

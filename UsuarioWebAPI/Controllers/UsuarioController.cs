@@ -61,5 +61,17 @@ public class UsuarioController : ControllerBase
         return Ok("Usuario Cadastrado com Sucesso");
     }
 
+    [HttpPost]
+    [Route("PasswordReset")]
+    public async Task<IActionResult> PasswordReset([FromBody] ResetRequest request)
+    {
+        
+        var usuarioExistente = await _usuarioService.EncontrarUsuarioParaReset(request);
+        
+        if (usuarioExistente is null) return BadRequest("Email e CPF inválidos");
+
+        
+        return Ok("Usuario Encontrado");
+    }
     
 }

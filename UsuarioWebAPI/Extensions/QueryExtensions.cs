@@ -37,6 +37,18 @@ namespace UsuarioWebAPI.Extensions
             U.data_nascimento as 'DataNascimento', 
             U.ativo as 'Ativo' FROM usuario U 
             WHERE U.cpf = @cpf;";
+
+        public static string QueryConsultaUsuarioPraReset() =>
+            @"
+        SELECT 
+            U.id as 'Id', 
+            U.nome as 'Nome', 
+            U.cpf as 'CPF', 
+            U.numero as 'Numero',
+            U.email as 'Email',
+            U.data_nascimento as 'DataNascimento', 
+            U.ativo as 'Ativo' FROM usuario U 
+            WHERE U.cpf = @cpf AND U.email = @email;";
     }
     
 }
