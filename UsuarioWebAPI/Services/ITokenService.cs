@@ -9,5 +9,8 @@ namespace UsuarioWebAPI.Services
     public interface ITokenService
     {
         public string GerarToken(Usuario usuario);
+        public Task<string> GerarTokenRecuperacao(Usuario usuario);
+        public Task<bool> ValidarToken(string token);
+        public Task<bool> ValidarEmailToken(NovaSenhaForm novaSenhaForm);
     }
 }

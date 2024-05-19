@@ -12,10 +12,12 @@ namespace UsuarioWebAPI.Services
     {
         private readonly ILogger<UsuarioService> _logger;
         private readonly IUsuarioDatabase _usuarioDatabase;
-        public UsuarioService(ILogger<UsuarioService> logger, IUsuarioDatabase usuarioDatabase)
+        private readonly IEmailSender _emailSender;
+        public UsuarioService(ILogger<UsuarioService> logger, IUsuarioDatabase usuarioDatabase, IEmailSender emailSender)
         {
             _logger = logger;
             _usuarioDatabase = usuarioDatabase;
+            _emailSender = emailSender;
         }
         public async Task<bool> Cadastrar(CadastroRequest request)
         {
@@ -49,6 +51,29 @@ namespace UsuarioWebAPI.Services
         {
             var usuarioExistente = await _usuarioDatabase.EncontrarUsuarioParaReset(resetRequest);
             return usuarioExistente;
+        }
+
+        public async Task EnviarRequisicaoReset(Usuario usuarioExistente, string token)
+        {
+            var destinatario = usuarioExistente.Email;
+            var assunto = "Redefinição de Senha";
+            var mensagem = $"Accesse o link a seguir para redefinir a senha: http://localhost:5173/Confirmar_Senha?token={token}. O link expirará em 30 minutos";
+
+            await _emailSender.SendEmailAsync(destinatario, assunto, mensagem);
+        }
+
+        public async Task<bool> AlterarSenha(NovaSenhaForm novaSenhaForm)
+        {
+            if(!novaSenhaForm.Senha.Equals(novaSenhaForm.ConfirmarSenha)) return false;
+            
+            var tokenEmailValido = await _usuarioDatabase.EncontrarTokenCpf(novaSenhaForm.CPF, novaSenhaForm.Token);
+
+            if(tokenEmailValido is null) return false;
+
+            var senhaAtualizada = await _usuarioDatabase.AlterarSenha(novaSenhaForm.CPF, novaSenhaForm.Senha);
+
+            return senhaAtualizada;
+
         }
     }
 }

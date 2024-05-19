@@ -55,6 +55,7 @@ services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnecti
 services.AddScoped<IUsuarioService, UsuarioService>();
 services.AddScoped<IUsuarioDatabase, UsuarioDatabase>();
 services.AddScoped<ITokenService, TokenService>();
+services.AddScoped<IEmailSender, EmailSender>();
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
     services.AddAuthentication(x =>

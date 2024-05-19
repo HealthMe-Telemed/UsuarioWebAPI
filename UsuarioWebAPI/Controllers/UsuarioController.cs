@@ -70,8 +70,34 @@ public class UsuarioController : ControllerBase
         
         if (usuarioExistente is null) return BadRequest("Email e CPF inválidos");
 
+        var token = await _tokenService.GerarTokenRecuperacao(usuarioExistente);
+
+        await _usuarioService.EnviarRequisicaoReset(usuarioExistente, token);
+
         
         return Ok("Usuario Encontrado");
+    }
+
+    [HttpGet]
+    [Route("RecoveryPassword")]
+    public async Task<IActionResult> VerificaToken([FromQuery] string token){
+        var tokenValido = await _tokenService.ValidarToken(token);
+        if (!tokenValido) return Unauthorized("O token não é válido");
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("RecoveryPassword")]
+    public async Task<IActionResult> VerificaToken([FromBody] NovaSenhaForm novaSenhaForm){
+
+        var emailTokenValido =  await _tokenService.ValidarEmailToken(novaSenhaForm);
+        if (!emailTokenValido) return Unauthorized("Email e token inválidos!!");
+
+        var senhaAlterada = await _usuarioService.AlterarSenha(novaSenhaForm);
+
+         if(!senhaAlterada) return BadRequest("Não foi possivel alterar a senha!!");
+
+        return Ok("Senha Alterada com sucesso");
     }
     
 }

@@ -23,6 +23,33 @@ namespace UsuarioWebAPI.Repository
             _database = database;
         }
 
+        public async Task<bool> AlterarSenha(string cpf, string senha)
+        {
+            try
+            {
+                _logger.LogInformation($"Tentando atualizar o agendamento no sistema...");
+                
+                await _database.ExecuteAsync(QueryExtensions.AlterarSenha(),
+                new {  
+                    cpf,
+                    novaSenha = senha
+                });
+
+                return true;
+            }
+
+            catch(MySqlException mysqlEx){
+                _logger.LogError($"Não foi possível atualizar o agendamento: {mysqlEx.ErrorCode} {mysqlEx.Message}");
+                return false;
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
         public async Task AtualizarPerfis(int usuarioId)
         {
             try
@@ -50,6 +77,46 @@ namespace UsuarioWebAPI.Repository
                 var perfis = await _database.QueryAsync<Perfil>(QueryExtensions.QueryBuscarPerfis(), 
                     new { id_usuario = usuarioId});
                 return perfis.ToList();
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
+        public async Task<string> EncontrarToken(string token)
+        {
+            var dataAtual = DateTime.Now;
+            
+            try
+            {
+                _logger.LogInformation($"Buscando token {token}...");
+                
+                var tokenEncontrado = await _database.QueryFirstOrDefaultAsync<string>(QueryExtensions.QueryConsultaToken(), 
+                    new { token, data_atual = dataAtual });
+                return tokenEncontrado;
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
+        public async Task<string> EncontrarTokenCpf(string cpf, string token)
+        {
+            var dataAtual = DateTime.Now;
+            
+            try
+            {
+                _logger.LogInformation($"Buscando token {token}...");
+                
+                var tokenEncontrado = await _database.QueryFirstOrDefaultAsync<string>(QueryExtensions.QueryConsultaTokenCpf(), 
+                    new { token, data_atual = dataAtual, cpf});
+                return tokenEncontrado;
             }
 
             catch(Exception ex)
@@ -104,6 +171,36 @@ namespace UsuarioWebAPI.Repository
                 var usuario = await _database.QueryFirstOrDefaultAsync<Usuario>(QueryExtensions.QueryConsultaUsuarioPraReset(), 
                     new { cpf = resetRequest.CPF, email = resetRequest.Email });
                 return usuario;
+            }
+
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+        }
+
+        public async Task<bool> InserirToken(string token, Usuario usuario)
+        {
+            var dataExpiracao = DateTime.Now.AddMinutes(30);
+            
+            try
+            {
+                _logger.LogInformation($"Tentando cadastrar o token no sistema...");
+                
+                await _database.ExecuteAsync(QueryExtensions.InserirToken(),
+                new {  
+                    id_usuario = usuario.Id,
+                    token,
+                    data_expiracao = dataExpiracao
+                });
+
+                return true;
+            }
+
+            catch(MySqlException mysqlEx){
+                _logger.LogError($"Não foi possível cadastrar o token: {mysqlEx.ErrorCode} {mysqlEx.Message}");
+                return false;
             }
 
             catch(Exception ex)

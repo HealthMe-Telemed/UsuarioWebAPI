@@ -49,6 +49,28 @@ namespace UsuarioWebAPI.Extensions
             U.data_nascimento as 'DataNascimento', 
             U.ativo as 'Ativo' FROM usuario U 
             WHERE U.cpf = @cpf AND U.email = @email;";
+
+        public static string InserirToken() => @"
+        INSERT INTO tokenReset(id_usuario, token, data_expiracao)
+        VALUES(@id_usuario, @token, @data_expiracao);";
+
+        public static string QueryConsultaToken() =>
+            @"
+        SELECT 
+            T.token FROM tokenReset T 
+            WHERE T.data_expiracao > @data_atual AND T.token = @token;";
+
+        public static string QueryConsultaTokenCpf() =>
+            @"
+        SELECT 
+            T.token FROM tokenReset T 
+            INNER JOIN usuario U
+            ON T.id_usuario = U.id
+            WHERE T.data_expiracao > @data_atual AND T.token = @token AND U.cpf = @cpf;";
+
+        public static string AlterarSenha() => @"
+        UPDATE usuario SET senha = @novaSenha
+        WHERE usuario.cpf = @cpf;";
     }
     
 }
