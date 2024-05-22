@@ -166,10 +166,10 @@ namespace UsuarioWebAPI.Repository
         {
             try
             {
-                _logger.LogInformation($"Buscando usuario com CPF: {resetRequest.CPF} e email: {resetRequest.Email}...");
+                _logger.LogInformation($"Buscando usuario com CPF: {resetRequest.Cpf} e email: {resetRequest.Email}...");
                 
                 var usuario = await _database.QueryFirstOrDefaultAsync<Usuario>(QueryExtensions.QueryConsultaUsuarioPraReset(), 
-                    new { cpf = resetRequest.CPF, email = resetRequest.Email });
+                    new { cpf = resetRequest.Cpf, email = resetRequest.Email });
                 return usuario;
             }
 

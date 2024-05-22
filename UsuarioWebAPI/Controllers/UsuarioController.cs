@@ -72,10 +72,11 @@ public class UsuarioController : ControllerBase
 
         var token = await _tokenService.GerarTokenRecuperacao(usuarioExistente);
 
+        if(token.Equals(string.Empty)) return BadRequest("Não foi possível gerar o token");
         await _usuarioService.EnviarRequisicaoReset(usuarioExistente, token);
 
         
-        return Ok("Usuario Encontrado");
+        return Ok("Um token será enviado ao email fornecido");
     }
 
     [HttpGet]
@@ -88,10 +89,10 @@ public class UsuarioController : ControllerBase
 
     [HttpPost]
     [Route("RecoveryPassword")]
-    public async Task<IActionResult> VerificaToken([FromBody] NovaSenhaForm novaSenhaForm){
+    public async Task<IActionResult> AlterarSenha([FromBody] NovaSenhaForm novaSenhaForm){
 
         var emailTokenValido =  await _tokenService.ValidarEmailToken(novaSenhaForm);
-        if (!emailTokenValido) return Unauthorized("Email e token inválidos!!");
+        if (!emailTokenValido) return Unauthorized("CPF e token inválidos!!");
 
         var senhaAlterada = await _usuarioService.AlterarSenha(novaSenhaForm);
 

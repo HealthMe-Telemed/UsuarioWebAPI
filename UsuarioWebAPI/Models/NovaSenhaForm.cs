@@ -7,7 +7,7 @@ namespace UsuarioWebAPI.Models
 {
     public class NovaSenhaForm
     {
-        public string CPF { get; set; }
+        public string Cpf { get; set; }
         public string Token { get; set;}
         public string Senha { get; set; }
         public string ConfirmarSenha { get; set; }

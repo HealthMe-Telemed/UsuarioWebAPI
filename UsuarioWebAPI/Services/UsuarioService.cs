@@ -66,11 +66,11 @@ namespace UsuarioWebAPI.Services
         {
             if(!novaSenhaForm.Senha.Equals(novaSenhaForm.ConfirmarSenha)) return false;
             
-            var tokenEmailValido = await _usuarioDatabase.EncontrarTokenCpf(novaSenhaForm.CPF, novaSenhaForm.Token);
+            var tokenEmailValido = await _usuarioDatabase.EncontrarTokenCpf(novaSenhaForm.Cpf, novaSenhaForm.Token);
 
             if(tokenEmailValido is null) return false;
 
-            var senhaAtualizada = await _usuarioDatabase.AlterarSenha(novaSenhaForm.CPF, novaSenhaForm.Senha);
+            var senhaAtualizada = await _usuarioDatabase.AlterarSenha(novaSenhaForm.Cpf, novaSenhaForm.Senha);
 
             return senhaAtualizada;
 

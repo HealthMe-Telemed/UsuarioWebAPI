@@ -93,7 +93,7 @@ namespace UsuarioWebAPI.Services
 
         public async Task<bool> ValidarEmailToken(NovaSenhaForm novaSenhaForm)
         {
-            var tokenCpfExiste = await _usuarioDatabase.EncontrarTokenCpf(novaSenhaForm.CPF, novaSenhaForm.Token);
+            var tokenCpfExiste = await _usuarioDatabase.EncontrarTokenCpf(novaSenhaForm.Cpf, novaSenhaForm.Token);
 
             if (tokenCpfExiste is null) return false;
 

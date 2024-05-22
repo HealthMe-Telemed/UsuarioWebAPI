@@ -7,7 +7,7 @@ namespace UsuarioWebAPI.Models
 {
     public class ResetRequest
     {
-        public string CPF { get; set; }
+        public string Cpf { get; set; }
         public string Email { get; set; }
     }
 }
