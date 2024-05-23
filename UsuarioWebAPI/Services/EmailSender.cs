@@ -11,8 +11,8 @@ namespace UsuarioWebAPI.Services
     {
         public Task SendEmailAsync(string destinatario, string assunto, string mensagem)
         {
-            var remetente = "vinicius.oliveira1998@hotmail.com";
-            var password = "Vinisantos1604.";
+            var remetente = "healthmeconsultas@outlook.com";
+            var password = "HealthMe@159";
 
             var client = new SmtpClient("smtp-mail.outlook.com", 587){
                 DeliveryMethod = SmtpDeliveryMethod.Network,
