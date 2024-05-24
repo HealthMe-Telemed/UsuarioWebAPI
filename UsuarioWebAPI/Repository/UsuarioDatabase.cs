@@ -180,6 +180,27 @@ namespace UsuarioWebAPI.Repository
             }
         }
 
+        public async Task<bool> ExcluirUsuario(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Tentando excluir o usuario com id {id} no sistema...");
+                
+                await _database.ExecuteAsync(QueryExtensions.ExcluirUsuario(),
+                new {  
+                    id
+                });
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Ocorreu um erro inesperado!! Segue o erro: {ex.Message}");
+                throw new Exception("Ocorreu um erro inesperado!!");
+            }
+
+        }
+
         public async Task<bool> InserirToken(string token, Usuario usuario)
         {
             var dataExpiracao = DateTime.Now.AddMinutes(30);

@@ -75,5 +75,12 @@ namespace UsuarioWebAPI.Services
             return senhaAtualizada;
 
         }
+
+        public async Task<bool> ExcluirUsuario(int id)
+        {
+            var usuarioExcluido = await _usuarioDatabase.ExcluirUsuario(id);
+            return usuarioExcluido;
+
+        }
     }
 }

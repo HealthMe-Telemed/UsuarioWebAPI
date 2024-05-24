@@ -100,5 +100,13 @@ public class UsuarioController : ControllerBase
 
         return Ok("Senha Alterada com sucesso");
     }
-    
+    [HttpDelete]
+    [Route("{id}/Excluir")]
+    public async Task<IActionResult> ExcluirUsuario(int id){
+        var usuarioExcluido = await _usuarioService.ExcluirUsuario(id);
+
+        if(!usuarioExcluido) return BadRequest("Não foi possível excluir o usuário");
+
+        return Ok("Usuario excluído com sucesso");
+    }
 }

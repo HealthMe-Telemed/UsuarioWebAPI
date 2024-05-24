@@ -22,7 +22,6 @@ namespace UsuarioWebAPI.Repository
         public Task<string> EncontrarTokenCpf(string cpf, string token);
 
         public Task<bool> AlterarSenha(string cpf, string senha);
-        
-
+        public Task<bool> ExcluirUsuario(int id);
     }
 }

@@ -77,6 +77,15 @@ namespace UsuarioWebAPI.Extensions
         public static string AlterarSenha() => @"
         UPDATE usuario SET senha = @novaSenha
         WHERE usuario.cpf = @cpf;";
+
+        public static string ExcluirUsuario() => @"
+        UPDATE usuario SET ativo = 0 WHERE id = @id;
+        UPDATE medico SET ativo = 0 WHERE usuario_id = @id;
+        UPDATE paciente SET ativo = 0 WHERE usuario_id = @id;
+        UPDATE agendamento INNER JOIN medico ON agendamento.medico_id = medico.id
+        INNER JOIN paciente ON agendamento.paciente_id = paciente.id 
+        SET agendamento.status_id = 3
+        WHERE paciente.usuario_id = @id OR medico.usuario_id = @id;";
     }
     
 }
