@@ -15,6 +15,8 @@ namespace UsuarioWebAPI.Models
         public string Numero { get; set; } 
         public DateTime DataNascimento { get; set; }
         public bool Ativo { get; set; }
+        public string CRM {get ; set; }
+        public string Especialidade { get; set; }
         public List<Perfil> Perfis { get; set; } = new List<Perfil>();
 
     }

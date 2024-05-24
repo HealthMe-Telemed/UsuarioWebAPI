@@ -15,7 +15,13 @@ namespace UsuarioWebAPI.Extensions
             U.numero as 'Numero',
             U.email as 'Email',
             U.data_nascimento as 'DataNascimento', 
-            U.ativo as 'Ativo' FROM usuario U 
+            U.ativo as 'Ativo',
+            M.crm AS 'CRM',
+            E.descricao AS 'Especialidade'
+            FROM usuario U
+			Left JOIN medico M ON M.usuario_id = U.id
+            LEFT JOIN alocacao_especialidade AE ON AE.medico_id = M.id
+			LEFT JOIN especialidade E ON E.id = AE.espec_id  
             WHERE U.cpf = @cpf AND U.senha = @senha;";
 
         public static string QueryBuscarPerfis() => @"
