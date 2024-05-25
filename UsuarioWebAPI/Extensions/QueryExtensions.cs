@@ -22,7 +22,7 @@ namespace UsuarioWebAPI.Extensions
 			Left JOIN medico M ON M.usuario_id = U.id
             LEFT JOIN alocacao_especialidade AE ON AE.medico_id = M.id
 			LEFT JOIN especialidade E ON E.id = AE.espec_id  
-            WHERE U.cpf = @cpf AND U.senha = @senha;";
+            WHERE U.cpf = @cpf AND U.senha = @senha AND U.ativo = 1;";
 
         public static string QueryBuscarPerfis() => @"
         SELECT p.id as 'IdPerfil', p.descricao as 'Descricao', vp.paciente_id AS 'IdPaciente', vp.medico_id AS 'IdMedico' FROM healthme.perfil p
